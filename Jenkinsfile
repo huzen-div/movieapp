@@ -1,37 +1,40 @@
 pipeline {
-  // Assign to docker agent(s) label, could also be 'any'
-  agent {
-    label 'docker' 
+  environment {
+    imagename = "234563/antsy"
+    registryCredential = 'testt'
+    dockerImage = ''
   }
-
+  agent any
   stages {
-    stage('Docker node test') {
-      agent {
-        docker {
-          // Set both label and image
-          label 'docker'
-          image 'node:7-alpine'
-          args '--name docker-node' // list any args
-        }
-      }
+    stage('Cloning Git') {
       steps {
-        // Steps run in node:7-alpine docker container on docker agent
-        sh 'node --version'
-      }
-    }
+        git([url: 'https://github.com/huzen-div/movieapp.git', branch: 'main', credentialsId: 'testt'])
 
-    stage('Docker maven test') {
-      agent {
-        docker {
-          // Set both label and image
-          label 'docker'
-          image 'maven:3-alpine'
-        }
-      }
-      steps {
-        // Steps run in maven:3-alpine docker container on docker agent
-        sh 'mvn --version'
       }
     }
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build imagename
+        }
+      }
+    }
+    // stage('Deploy Image') {
+    //   steps{
+    //     script {
+    //       docker.withRegistry( '', registryCredential ) {
+    //         dockerImage.push("$BUILD_NUMBER")
+    //          dockerImage.push('latest')
+    //       }
+    //     }
+    //   }
+    // }
+    // stage('Remove Unused docker image') {
+    //   steps{
+    //     sh "docker rmi $imagename:$BUILD_NUMBER"
+    //      sh "docker rmi $imagename:latest"
+
+    //   }
+    // }
   }
-} 
+}
