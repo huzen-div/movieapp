@@ -1,24 +1,37 @@
 pipeline {
-  environment {
-    imagename = "234563/antsy"
-    registryCredential = 'testt'
-    dockerImage = ''
+  // Assign to docker agent(s) label, could also be 'any'
+  agent {
+    label 'docker' 
   }
-  agent any
-  stages {
-    stage('Cloning Git') {
-      steps {
-        git([url: 'https://github.com/huzen-div/movieapp.git', branch: 'main', credentialsId: 'testt'])
 
-      }
-    }
-    stage('Building image') {
-      steps{
-        script {
-          dockerImage = docker.build imagename
+  stages {
+    stage('Docker node test') {
+      agent {
+        docker {
+          // Set both label and image
+          label 'docker'
+          image 'node:7-alpine'
+          args '--name docker-node' // list any args
         }
       }
+      steps {
+        // Steps run in node:7-alpine docker container on docker agent
+        sh 'node --version'
+      }
     }
-    
+
+    stage('Docker maven test') {
+      agent {
+        docker {
+          // Set both label and image
+          label 'docker'
+          image 'maven:3-alpine'
+        }
+      }
+      steps {
+        // Steps run in maven:3-alpine docker container on docker agent
+        sh 'mvn --version'
+      }
+    }
   }
-}
+} 
