@@ -1,0 +1,13 @@
+# service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-angular-app-service
+spec:
+  selector:
+    app: sample-angular-app
+  ports:
+  - port: 8090
+    targetPort: 80
+  type: LoadBalancer
