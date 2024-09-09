@@ -40,7 +40,7 @@
 // }
 
 pipeline {
-  agent none
+  agent any
   stages {
     stage('Cloning Git') {
       steps {
