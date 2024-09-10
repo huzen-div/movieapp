@@ -1,6 +1,6 @@
 # pod.yaml
 
-apiVersion: v2
+apiVersion: v1
 kind: Pod
 metadata:
   name: sample-angular-app
