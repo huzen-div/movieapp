@@ -10,6 +10,7 @@ spec:
   containers:
   - name: sample-angular-app
     #image: dvalley56/sample-angular-app
+    #image: dvalley56/sample-angular-app
     image: 234563/antsy:latest
     resources:
       limits:
