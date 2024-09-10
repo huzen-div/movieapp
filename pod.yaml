@@ -11,7 +11,7 @@ spec:
   - name: sample-angular-app
     #image: dvalley56/sample-angular-app
     #image: dvalley56/sample-angular-app
-    image: 234563/antsy:v1
+    image: 234563/antsy:v2
     resources:
       limits:
         memory: "128Mi"
