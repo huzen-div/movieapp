@@ -7,7 +7,6 @@ metadata:
 spec:
   selector:
     app: sample-angular-app
-    # app: sample-angular-app
   ports:
   - port: 8090
     targetPort: 80
