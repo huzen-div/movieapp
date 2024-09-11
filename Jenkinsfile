@@ -2,7 +2,7 @@ pipeline {
   environment {
     imagename = "234563/antsy"
     DOCKER_HOME = '/usr/local/bin/docker'
-    buildVersion = "v4"
+    buildVersion = "latest"
   }
   agent any
   stages {
