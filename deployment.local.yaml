@@ -1,35 +1,63 @@
-apiVersion: v1 # for versions before 1.9.0 use apps/v1beta2 
-kind: Deployment 
-metadata: 
-  name: angular-deployment 
-spec: 
-  selector: 
-    matchLabels: 
-      app: angular 
-  replicas: 5 # tells deployment to run 2 pods matching the template 
-  template: 
-    metadata: 
-      labels: 
-        app: angular 
-    spec: 
-      containers: 
-      - name: angular 
-        # image: houssemdocker/angular-app:v1 
-        image: 234563/antsy:v3 
-        ports: 
-        - containerPort: 80 
---- 
-# https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service  
-kind: Service 
-apiVersion: v1 
-metadata: 
+# apiVersion: v1 # for versions before 1.9.0 use apps/v1beta2 
+# kind: Deployment 
+# metadata: 
+#   name: angular-deployment 
+# spec: 
+#   selector: 
+#     matchLabels: 
+#       app: angular 
+#   replicas: 5 # tells deployment to run 2 pods matching the template 
+#   template: 
+#     metadata: 
+#       labels: 
+#         app: angular 
+#     spec: 
+#       containers: 
+#       - name: angular 
+#         # image: houssemdocker/angular-app:v1 
+#         image: 234563/antsy:v3 
+#         ports: 
+#         - containerPort: 80 
+# --- 
+# # https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service  
+# kind: Service 
+# apiVersion: v1 
+# metadata: 
+#   name: angular-service 
+# spec: 
+#   selector: 
+#     app: angular 
+#   ports: 
+#   - protocol: TCP 
+#     port: 8090 
+#     targetPort: 80 
+#     nodePort: 31000 
+#   type: NodePort 
+
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: demo-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        label-key : demo-label  
+    spec:
+      containers:
+        - name: demo-deployment-container
+          image: 234563/antsy:v3
+          ports:
+            - containerPort: 80
+
+kind: Service
+metadata:
   name: angular-service 
-spec: 
-  selector: 
-    app: angular 
-  ports: 
-  - protocol: TCP 
-    port: 8090 
-    targetPort: 80 
-    nodePort: 31000 
-  type: NodePort 
+spec:
+  selector:
+    app: demo-deployment-container
+  ports:
+  - port: 8090
+    targetPort: 80
+  type: LoadBalancer
