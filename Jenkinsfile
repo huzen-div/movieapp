@@ -33,7 +33,7 @@ pipeline {
       steps{
         script{
           // sh '/usr/local/bin/kubectl apply -f pod.yaml'
-          sh '/usr/local/bin/kubectl apply -f deployment-local.yaml'
+          sh '/usr/local/bin/kubectl apply -f deployment.local.yaml'
           sh '/usr/local/bin/kubectl apply -f service.yaml'
         }
       }
