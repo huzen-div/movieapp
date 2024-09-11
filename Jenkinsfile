@@ -2,6 +2,7 @@ pipeline {
   environment {
     imagename = "234563/antsy"
     DOCKER_HOME = '/usr/local/bin/docker'
+    buildVersion = "v3"
   }
   agent any
   stages {
@@ -13,7 +14,7 @@ pipeline {
     stage('Build Image'){
       steps{
         script{
-          sh '${DOCKER_HOME} build -t ${imagename}:v2 .'
+          sh '${DOCKER_HOME} build -t ${imagename}:${buildVersion} .'
         }
       }
     }
@@ -22,9 +23,9 @@ pipeline {
         script{
           withCredentials([usernamePassword(credentialsId: '3a3d2229-4a91-4d17-91bf-130069bef1ea	', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
             sh '${DOCKER_HOME} login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}'
-            sh '${DOCKER_HOME} push ${imagename}:v2'
+            sh '${DOCKER_HOME} push ${imagename}:${buildVersion}'
             //sh '${DOCKER_HOME} rmi -f $(${DOCKER_HOME} images -f "dangling=true" -q)'
-            sh '${DOCKER_HOME} rmi ${imagename}:v2'
+            sh '${DOCKER_HOME} rmi ${imagename}:${buildVersion}'
           }
         }
       }

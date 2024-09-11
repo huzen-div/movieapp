@@ -36,7 +36,7 @@ spec:
     spec:
       containers:
       - name: frontend-container
-        image: 234563/antsy:v2
+        image: 234563/antsy:v3
         # resources:
         #   limits:
         #     memory: "128Mi"
