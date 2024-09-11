@@ -1,19 +1,16 @@
-# pod.yaml
-
-apiVersion: v1
-kind: Pod
-metadata:
-  name: sample-angular-app
-  labels:
-    app: sample-angular-app
-spec:
-  containers:
-  - name: sample-angular-app
-    #image: dvalley56/sample-angular-app
-    image: 234563/antsy:v3
-    resources:
-      limits:
-        memory: "128Mi"
-        cpu: "500m"
-    ports:
-      - containerPort: 80
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: sample-angular-app
+#   labels:
+#     app: sample-angular-app
+# spec:
+#   containers:
+#   - name: sample-angular-app
+#     image: 234563/antsy:v3
+#     resources:
+#       limits:
+#         memory: "128Mi"
+#         cpu: "500m"
+#     ports:
+#       - containerPort: 80

@@ -1,63 +1,45 @@
-# apiVersion: v1 # for versions before 1.9.0 use apps/v1beta2 
-# kind: Deployment 
-# metadata: 
-#   name: angular-deployment 
-# spec: 
-#   selector: 
-#     matchLabels: 
-#       app: angular 
-#   replicas: 5 # tells deployment to run 2 pods matching the template 
-#   template: 
-#     metadata: 
-#       labels: 
-#         app: angular 
-#     spec: 
-#       containers: 
-#       - name: angular 
-#         # image: houssemdocker/angular-app:v1 
-#         image: 234563/antsy:v3 
-#         ports: 
-#         - containerPort: 80 
-# --- 
-# # https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service  
-# kind: Service 
-# apiVersion: v1 
-# metadata: 
-#   name: angular-service 
-# spec: 
-#   selector: 
-#     app: angular 
-#   ports: 
-#   - protocol: TCP 
-#     port: 8090 
-#     targetPort: 80 
-#     nodePort: 31000 
-#   type: NodePort 
-
 apiVersion: v1
-kind: Deployment
-metadata:
-  name: demo-deployment
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        label-key : demo-label  
-    spec:
-      containers:
-        - name: demo-deployment-container
-          image: 234563/antsy:v3
-          ports:
-            - containerPort: 80
-
 kind: Service
 metadata:
-  name: angular-service 
+  name: lb-frontend-service
+  labels:
+    app: lb-frontend-service
 spec:
   selector:
-    app: demo-deployment
+    app: frontend
   ports:
   - port: 8090
     targetPort: 80
   type: LoadBalancer
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  # minReadySeconds: 30
+  # strategy:
+  #   type: RollingUpdate
+  #   rollingUpdate:
+  #     maxSurge: 1
+  #     maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend-container
+        image: 234563/antsy:v3
+        # resources:
+        #   limits:
+        #     memory: "128Mi"
+        #     cpu: "500m"
+        ports:
+          - containerPort: 80
